@@ -112,7 +112,7 @@ def is_pool_per_enters_worth_risk(fields):
                 return False  # Return False if extraction failed or enters is 0
     
     if pool_value is not None and enters_value is not None and enters_value != 0:
-        return pool_value / enters_value >= 10
+        return pool_value / enters_value >= 0.5
     else:
         return False  # Return False if pool or enters values were not found or valid
 
