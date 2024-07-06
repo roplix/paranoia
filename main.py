@@ -14,7 +14,7 @@ from settings import (
     is_pool_per_enters_worth_risk
 )
 
-emoji_options = ['❤', '💙', '🐟', '🚀', '🔥']
+emoji_options = ['❤', '💙', '🚀', '🔥']
 
 responses = [
     "thx",
