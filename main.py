@@ -2,9 +2,8 @@ import discord
 import asyncio
 import random
 
-import ast
-import inspect
-import re
+import os
+from discord.gateway import DiscordWebSocket
 
 import discord
 import os
@@ -43,24 +42,17 @@ def hello_world():
 
 # EXTRA
 
-# s: https://medium.com/@chipiga86/python-monkey-patching-like-a-boss-87d7ddb8098e
-def source(o):
-    s = inspect.getsource(o).split("\n")
-    indent = len(s[0]) - len(s[0].lstrip())
-    return "\n".join(i[indent:] for i in s)
+class MyDiscordWebSocket(DiscordWebSocket):
+
+    async def send_as_json(self, data):
+        if data.get('op') == self.IDENTIFY:
+            if data.get('d', {}).get('properties', {}).get('$browser') is not None:
+                data['d']['properties']['$browser'] = 'Discord Android'
+                data['d']['properties']['$device'] = 'Discord Android'
+        await super().send_as_json(data)
 
 
-source_ = source(discord.gateway.DiscordWebSocket.identify)
-patched = re.sub(
-    r'([\'"]\$browser[\'"]:\s?[\'"]).+([\'"])',  # hh this regex
-    r"\1Discord Android\2",  # s: https://luna.gitlab.io/discord-unofficial-docs/mobile_indicator.html
-    source_
-)
-
-loc = {}
-exec(compile(ast.parse(patched), "<string>", "exec"), discord.gateway.__dict__, loc)
-
-discord.gateway.DiscordWebSocket.identify = loc["identify"]
+DiscordWebSocket.from_client = MyDiscordWebSocket.from_client
 
 #EXTRA
 
