@@ -1,11 +1,6 @@
 import discord
 import asyncio
 import random
-
-import os
-from discord.gateway import DiscordWebSocket
-
-import discord
 import os
 from flask import Flask
 from keep_alive import keep_alive
@@ -42,17 +37,7 @@ def hello_world():
 
 # EXTRA
 
-class MyDiscordWebSocket(DiscordWebSocket):
 
-    async def send_as_json(self, data):
-        if data.get('op') == self.IDENTIFY:
-            if data.get('d', {}).get('properties', {}).get('$browser') is not None:
-                data['d']['properties']['$browser'] = 'Discord Android'
-                data['d']['properties']['$device'] = 'Discord Android'
-        await super().send_as_json(data)
-
-
-DiscordWebSocket.from_client = MyDiscordWebSocket.from_client
 
 #EXTRA
 
