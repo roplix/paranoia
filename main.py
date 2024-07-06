@@ -1,6 +1,12 @@
 import discord
 import asyncio
 import random
+
+import ast
+import inspect
+import re
+
+import discord
 import os
 from flask import Flask
 from keep_alive import keep_alive
@@ -35,11 +41,33 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
+# EXTRA
+
+# s: https://medium.com/@chipiga86/python-monkey-patching-like-a-boss-87d7ddb8098e
+def source(o):
+    s = inspect.getsource(o).split("\n")
+    indent = len(s[0]) - len(s[0].lstrip())
+    return "\n".join(i[indent:] for i in s)
+
+
+source_ = source(discord.gateway.DiscordWebSocket.identify)
+patched = re.sub(
+    r'([\'"]\$browser[\'"]:\s?[\'"]).+([\'"])',  # hh this regex
+    r"\1Discord Android\2",  # s: https://luna.gitlab.io/discord-unofficial-docs/mobile_indicator.html
+    source_
+)
+
+loc = {}
+exec(compile(ast.parse(patched), "<string>", "exec"), discord.gateway.__dict__, loc)
+
+discord.gateway.DiscordWebSocket.identify = loc["identify"]
+
+#EXTRA
+
 # Discord client setup
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
-        activity = discord.Activity(type=discord.ActivityType.custom, name="Mobile")
 
 client = MyClient()
 
