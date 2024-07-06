@@ -39,6 +39,7 @@ def hello_world():
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
+        activity = discord.Activity(type=discord.ActivityType.custom, name="Mobile")
 
 client = MyClient()
 
