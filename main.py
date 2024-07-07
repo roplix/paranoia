@@ -56,7 +56,7 @@ async def on_message(message):
 
         # Processing raffle ended messages
         for embed in message.embeds:
-            if client.user.mentioned_in(message) and "### 🎟️\xa0\xa0Raffle ended!" in embed.description:
+            if client.user.mentioned_in(message) and embed and embed.description and "Raffle ended" in embed.description:
                 response = random.choice(responses)
                 extracted_text = extract_text_between_parentheses(embed.description)
 
@@ -100,7 +100,7 @@ async def on_message(message):
 
         # Example of handling different conditions for entering raffles or airdrops
         for embed in message.embeds:
-            if "Raffle created" in embed.description:
+            if  embed and embed.description and "Raffle created" in embed.description:
                 if is_pool_per_enters_worth_risk(embed.fields):
                     for component in message.components:
                         for child in component.children:
@@ -113,7 +113,7 @@ async def on_message(message):
                             if child.label == "Enter":
                                 await asyncio.sleep(random.randint(3, 6))
                                 await child.click()
-            elif "Airdrop created" in embed.description:
+            elif embed and embed.description and "Airdrop created" in embed.description:
                 if is_pool_per_enters_worth_risk(embed.fields):
                     for component in message.components:
                         for child in component.children:
