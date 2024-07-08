@@ -11,7 +11,8 @@ from settings import (
     is_enters_value_at_most_4,
     is_pool_per_enters_above_threshold,
     extract_text_between_parentheses,
-    is_pool_per_enters_worth_risk
+    is_pool_per_enters_worth_risk,
+    is_prize_value_above_1
 )
 
 emoji_options = ['❤', '💙', '🚀', '🔥']
@@ -101,7 +102,7 @@ async def on_message(message):
         # Example of handling different conditions for entering raffles or airdrops
         for embed in message.embeds:
             if  embed and embed.description and "Raffle created" in embed.description:
-                if is_pool_per_enters_worth_risk(embed.fields):
+                if is_prize_value_above_1(embed.fields):
                     for component in message.components:
                         for child in component.children:
                             if child.label == "Enter":
