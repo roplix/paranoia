@@ -12,6 +12,18 @@ def extract_prize_value(prize_text):
     except ValueError:
         return None  # Handle the case where conversion fails
 
+def is_prize_value_above_1(fields):
+    for field in fields:
+        if field.name.lower() == "prize":
+            prize_text = field.value  # Extract prize text from the prize field
+            print(f"Checking prize: {prize_text}")
+            value = extract_prize_value(prize_text)
+            if value is not None:
+                return value > 0.1  # Check if the value is more than $0.1
+            else:
+                return False  # Return False if extraction failed
+    return False  # Return False if no prize field found or extraction failed
+
 def is_prize_value_above_threshold(fields):
     for field in fields:
         if field.name.lower() == "prize":
