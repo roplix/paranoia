@@ -36,12 +36,6 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
-# EXTRA
-
-
-
-#EXTRA
-
 # Discord client setup
 class MyClient(discord.Client):
     async def on_ready(self):
