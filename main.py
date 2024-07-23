@@ -46,7 +46,7 @@ client = MyClient()
 # Event: Message received
 @client.event
 async def on_message(message):
-    if message.author.id == 1150448986264698980 and message.guild.id != 1102183639791452242:
+    if message.author.id == 1150448986264698980 and message.guild.id != 1102183639791452242 and message.guild.id != 1222623160734580736:
         print("Message from bot.")
 
         # Processing raffle ended messages
