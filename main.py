@@ -108,13 +108,13 @@ async def on_message(message):
                             if child.label == "Enter":
                                 await asyncio.sleep(random.randint(3, 6))
                                 await child.click()
- #           elif embed and embed.description and "Airdrop created" in embed.description:
- #               if is_pool_per_enters_worth_risk(embed.fields):
- #                   for component in message.components:
- #                       for child in component.children:
- #                           if child.label == "Enter":
- #               #               await asyncio.sleep(random.randint(3, 6))
- #                               await child.click()
+            elif embed and embed.description and "Airdrop created" in embed.description:
+                if is_pool_per_enters_worth_risk(embed.fields):
+                    for component in message.components:
+                        for child in component.children:
+                            if child.label == "Enter":
+                #               await asyncio.sleep(random.randint(3, 6))
+                                await child.click()
  #               elif is_pool_value_above_threshold(embed.fields):
  #                   for component in message.components:
  #                       for child in component.children:
